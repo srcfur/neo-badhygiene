@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 
 import java.lang.reflect.Constructor;
@@ -30,6 +31,7 @@ import java.util.function.Supplier;
 public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractToiletBlockEntity> {
     public static ArrayList<RegisteredPotty<AbstractToiletBlock, AbstractToiletBlockEntity>> allRegisteredPotties = new ArrayList<>();
     public DeferredBlock<T> BLOCK;
+    public DeferredHolder<Item, BlockItem> ITEM;
     public DeferredHolder<BlockEntityType<?>, BlockEntityType<? extends AbstractToiletBlockEntity>> ENTITY;
 
     public static RegisteredPotty<AbstractToiletBlock, AbstractToiletBlockEntity> registerToilet(String name, Class<? extends AbstractToiletBlock> block, BlockBehaviour.Properties properties, Class<? extends AbstractToiletBlockEntity> entity){
@@ -53,7 +55,7 @@ public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractTo
         });                                                                      //Register Block
 
 
-        ModItems.ITEMS.register(name, () -> new BlockItem(returnable.BLOCK.get(), new Item.Properties().stacksTo(64)));     //Register item!
+        returnable.ITEM = ModItems.ITEMS.register(name, () -> new BlockItem(returnable.BLOCK.get(), new Item.Properties().stacksTo(64)));     //Register item!
 
 
         Constructor<? extends AbstractToiletBlockEntity> con;
