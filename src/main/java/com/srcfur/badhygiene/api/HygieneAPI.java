@@ -53,7 +53,6 @@ public class HygieneAPI {
     public static double getPlayerFullBladderSlowdown(@NotNull  Player p) { return -0.3; }
     ///Returns how much of the bladder needs to be filled up before being considered critical
     public static double getBladderCriticalThreshold(@NotNull Player p) { return 85; }
-    /// Really not gonna be used anymore. Legacy :3
     public static int getBladderToFluidUnits(int bladder) { return bladder * 30; }
     public static int selfWettingHygieneImpact(@NotNull MinecraftServer server, @NotNull Player currentPlayer) { return 35; }
     /// Registers a function to be ran when a player wets themselves, if returned true then their accident was caught

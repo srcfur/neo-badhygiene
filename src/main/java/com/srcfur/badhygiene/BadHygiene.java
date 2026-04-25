@@ -48,10 +48,10 @@ public class BadHygiene {
     // Creates a creative tab with the id "badhygiene:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("sbh", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.badhygiene")) //The language key for the title of your CreativeModeTab
-            .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> new ItemStack(BlockItem.byBlock(ModBlocks.TOILET.BLOCK.get())))
+            .icon(() -> new ItemStack(ModBlocks.TOILET.ITEM.get()))
             .displayItems((parameters, output) -> {
-                output.accept(BlockItem.byBlock(ModBlocks.TOILET.BLOCK.get())); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(ModBlocks.TOILET.ITEM.get());
+                output.accept(ModBlocks.WOODEN_LATRINE.ITEM.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
