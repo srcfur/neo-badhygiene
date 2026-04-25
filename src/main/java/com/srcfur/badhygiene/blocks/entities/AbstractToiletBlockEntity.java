@@ -25,7 +25,7 @@ public abstract class AbstractToiletBlockEntity extends BlockEntity implements I
     FluidStack fluidInToilet;
     public AbstractToiletBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
-        fluidInToilet = new FluidStack(ModFluids.URINE_STILL, 0);
+        fluidInToilet = new FluidStack(ModFluids.URINE_STILL.get(), 0);
     }
 
 
@@ -39,7 +39,7 @@ public abstract class AbstractToiletBlockEntity extends BlockEntity implements I
      * @return Amount of fluid that was accepted (or would be, if simulated) by the tank.
      */
     public int fill(FluidStack resource, FluidAction action){
-        int pull = Math.min(Math.max(resource.getAmount() + getFluidInTank(0).getAmount() - getTankCapacity(0), 0), resource.getAmount());
+        int pull = Math.max(Math.min(getTankCapacity(0) - getFluidInTank(0).getAmount(), resource.getAmount()), 0);
         if(action.execute()) {
             getFluidInTank(0).setAmount(getFluidInTank(0).getAmount() + pull);
         }
@@ -66,7 +66,7 @@ public abstract class AbstractToiletBlockEntity extends BlockEntity implements I
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        fluidInToilet = new FluidStack(ModFluids.URINE_STILL, tag.getInt("urine"));
+        fluidInToilet = new FluidStack(ModFluids.URINE_STILL.get(), tag.getInt("urine"));
     }
 
     public boolean canBeScoopedOut(ItemStack item){
