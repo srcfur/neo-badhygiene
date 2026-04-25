@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "   ",
+    "# #",
+    "#u#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:oak_log"
+    },
+    "u": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "id": "badhygiene:wooden_latrine"
+  }
+}
