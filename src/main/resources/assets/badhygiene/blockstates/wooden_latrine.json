@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "badhygiene:block/woodenlatrine", "y": 0},
+    "facing=east": { "model": "badhygiene:block/woodenlatrine", "y": 90},
+    "facing=south": { "model": "badhygiene:block/woodenlatrine", "y": 180},
+    "facing=west": { "model": "badhygiene:block/woodenlatrine", "y": 270}
+  }
+}
