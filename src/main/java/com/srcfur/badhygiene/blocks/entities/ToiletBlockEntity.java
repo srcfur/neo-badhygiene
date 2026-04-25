@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class ToiletBlockEntity extends AbstractToiletBlockEntity  {
-    private long storedFluidAmount = 0;
 
     public ToiletBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
