@@ -33,8 +33,9 @@ public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractTo
     public DeferredBlock<T> BLOCK;
     public DeferredHolder<Item, BlockItem> ITEM;
     public DeferredHolder<BlockEntityType<?>, BlockEntityType<? extends AbstractToiletBlockEntity>> ENTITY;
+    public Constructor<? extends AbstractToiletBlockEntity> ENTITY_CONSTRUCTOR;
 
-    public static RegisteredPotty<AbstractToiletBlock, AbstractToiletBlockEntity> registerToilet(String name, Class<? extends AbstractToiletBlock> block, BlockBehaviour.Properties properties, Class<? extends AbstractToiletBlockEntity> entity){
+    public static RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> registerToilet(String name, Class<? extends AbstractToiletBlock> block, BlockBehaviour.Properties properties, Class<? extends AbstractToiletBlockEntity> entity){
         RegisteredPotty<AbstractToiletBlock, AbstractToiletBlockEntity> returnable = new RegisteredPotty<>();
         Constructor<? extends AbstractToiletBlock> blockcon;
         try{
@@ -76,6 +77,7 @@ public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractTo
                 throw new RuntimeException(e);
             }
         };
+        returnable.ENTITY_CONSTRUCTOR = con;
         returnable.ENTITY = ModBlockEntities.BLOCK_ENTITY.register(name,
                 ()-> {
                     return BlockEntityType.Builder.of(

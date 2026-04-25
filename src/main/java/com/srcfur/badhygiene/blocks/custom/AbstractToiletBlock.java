@@ -27,6 +27,8 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.InvocationTargetException;
+
 public abstract class AbstractToiletBlock extends BaseEntityBlock {
     public RegisteredPotty<AbstractToiletBlock, AbstractToiletBlockEntity> registration = null;
     private static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
@@ -45,7 +47,11 @@ public abstract class AbstractToiletBlock extends BaseEntityBlock {
     }
     @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
-        return new ToiletBlockEntity(registration.ENTITY.get(), blockPos, blockState);
+        try {
+            return registration.ENTITY_CONSTRUCTOR.newInstance(registration.ENTITY.get(), blockPos, blockState);
+        } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -65,8 +71,8 @@ public abstract class AbstractToiletBlock extends BaseEntityBlock {
             AbstractToiletBlockEntity entity = (AbstractToiletBlockEntity) level.getBlockEntity(blockPos);
             if(entity != null){
                 if(!level.isClientSide()) {
-                    if (entity.fill(new FluidStack(ModFluids.URINE_STILL, HygieneAPI.getBladderToFluidUnits(1)), IFluidHandler.FluidAction.SIMULATE) > 0) {
-                        entity.fill(new FluidStack(ModFluids.URINE_STILL, HygieneAPI.getBladderToFluidUnits(1)), IFluidHandler.FluidAction.EXECUTE);
+                    if (entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(1)), IFluidHandler.FluidAction.SIMULATE) > 0) {
+                        entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(1)), IFluidHandler.FluidAction.EXECUTE);
                         HygieneAPI.setBladderLevel(player, Math.clamp(HygieneAPI.getBladderLevel(player) - 1, 0, HygieneAPI.getContinence(player)));
                     } else {
                         //Add thingy to make it visible a toilet is backed up

@@ -8,28 +8,15 @@ import com.srcfur.badhygiene.blocks.entities.ToiletBlockEntity;
 import com.srcfur.badhygiene.blocks.entities.WoodenLatrineEntity;
 import com.srcfur.badhygiene.fluids.ModFluids;
 import com.srcfur.badhygiene.items.ModItems;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
-import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ModBlocks {
@@ -46,11 +33,11 @@ public class ModBlocks {
     //public static final Block TOILET = register("toilet", ToiletBlock::new, BlockBehaviour.Properties.of().sound(SoundType.GLASS).noOcclusion(), true);
     //public static final DeferredBlock<Potty> WOODEN_LATRINE = register("wooden_latrine", LatrineBlock::new, BlockBehaviour.Properties.of().sound(SoundType.WOOD).noOcclusion(), true);
 
-    public static final RegisteredPotty<AbstractToiletBlock, AbstractToiletBlockEntity> TOILET = RegisteredPotty.registerToilet("toilet",
+    public static final RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> TOILET = RegisteredPotty.registerToilet("toilet",
             ToiletBlock.class,
             BlockBehaviour.Properties.of().noOcclusion(),
             ToiletBlockEntity.class);
-    public static final RegisteredPotty<AbstractToiletBlock, AbstractToiletBlockEntity> WOODEN_LATRINE = RegisteredPotty.registerToilet("wooden_latrine",
+    public static final RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> WOODEN_LATRINE = RegisteredPotty.registerToilet("wooden_latrine",
             ToiletBlock.class,
             BlockBehaviour.Properties.of().noOcclusion(),
             WoodenLatrineEntity.class);
