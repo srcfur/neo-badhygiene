@@ -8,8 +8,9 @@ import com.srcfur.badhygiene.blocks.entities.ToiletBlockEntity;
 import com.srcfur.badhygiene.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -46,17 +47,14 @@ public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractTo
         returnable.BLOCK = ModBlocks.BLOCKS.register(name, ()-> {
             try {
                 return blockcon.newInstance(properties, returnable);
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
+            } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         });                                                                      //Register Block
 
 
-        returnable.ITEM = ModItems.ITEMS.register(name, () -> new BlockItem(returnable.BLOCK.get(), new Item.Properties().stacksTo(64)));     //Register item!
+        returnable.ITEM = ModItems.ITEMS.register(name, () -> new BlockItem(returnable.BLOCK.get(), new Item.Properties().stacksTo(64)
+                .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(BadHygiene.MODID, name)))));     //Register item!
 
 
         Constructor<? extends AbstractToiletBlockEntity> con;
@@ -79,12 +77,11 @@ public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractTo
         };
         returnable.ENTITY_CONSTRUCTOR = con;
         returnable.ENTITY = ModBlockEntities.BLOCK_ENTITY.register(name,
-                ()-> {
-                    return BlockEntityType.Builder.of(
-                            besupp,
-                            returnable.BLOCK.get()
-                    ).build(null);
-                });
+                ()-> new BlockEntityType<>(
+                        besupp,
+                        false,
+                        returnable.BLOCK.value()
+                ));
         allRegisteredPotties.add(returnable);
         return returnable;
     }

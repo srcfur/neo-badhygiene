@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.WaterFluid;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
@@ -58,15 +60,17 @@ public abstract class AbstractToiletBlockEntity extends BlockEntity implements I
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putInt("urine", fluidInToilet.getAmount());
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt("urine", fluidInToilet.getAmount());
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        fluidInToilet = new FluidStack(ModFluids.URINE_STILL.get(), tag.getInt("urine"));
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        if(input.getInt("urine").isPresent()){
+            fluidInToilet = new FluidStack(ModFluids.URINE_STILL.get(), input.getInt("urine").get());
+        }
     }
 
     public boolean canBeScoopedOut(ItemStack item){

@@ -8,6 +8,9 @@ import com.srcfur.badhygiene.blocks.entities.ToiletBlockEntity;
 import com.srcfur.badhygiene.blocks.entities.WoodenLatrineEntity;
 import com.srcfur.badhygiene.fluids.ModFluids;
 import com.srcfur.badhygiene.items.ModItems;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -35,16 +38,16 @@ public class ModBlocks {
 
     public static final RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> TOILET = RegisteredPotty.registerToilet("toilet",
             ToiletBlock.class,
-            BlockBehaviour.Properties.of().noOcclusion(),
+            BlockBehaviour.Properties.of().noOcclusion().setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "toilet"))),
             ToiletBlockEntity.class);
     public static final RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> WOODEN_LATRINE = RegisteredPotty.registerToilet("wooden_latrine",
             ToiletBlock.class,
-            BlockBehaviour.Properties.of().noOcclusion(),
+            BlockBehaviour.Properties.of().noOcclusion().setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "wooden_latrine"))),
             WoodenLatrineEntity.class);
 
     public static final DeferredBlock<Block> URINE = BLOCKS.register("urine", () -> new LiquidBlock(
             ModFluids.URINE_FLOWING.get(),
-            BlockBehaviour.Properties.ofFullCopy(Blocks.WATER)
+            BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "urine")))
     ));
 
     public static DeferredBlock<Block> register(String name, Supplier<? extends Block> supplier){
