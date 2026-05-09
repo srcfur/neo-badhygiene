@@ -81,10 +81,10 @@ public class HygieneAPI {
     /// Performed on every player in the game, every tick!
     public static void ServerPlayerTick(@NotNull MinecraftServer server, @NotNull Player currentPlayer){
         if(getBladderLevel(currentPlayer) > getCalculatedContinence(currentPlayer)){
-            setBladderLevel(currentPlayer, 0);
             if(!testWettingCaught(currentPlayer)){
                 HygieneAPI.impactCleanliness(currentPlayer, selfWettingHygieneImpact(server, currentPlayer));
             }
+            setBladderLevel(currentPlayer, 0);
         }
         AttributeInstance movementspeed = currentPlayer.getAttribute(Attributes.MOVEMENT_SPEED);
         //Advice to anyone wanting to inject into any of the following below. Look into inject the Add / Remove
