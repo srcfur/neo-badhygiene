@@ -2,6 +2,7 @@ package com.srcfur.badhygiene.bedwetting;
 
 import com.srcfur.badhygiene.BadHygiene;
 import com.srcfur.badhygiene.api.HygieneAPI;
+import com.srcfur.badhygiene.events.BadHygieneEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.player.PlayerWakeUpEvent;
@@ -27,6 +28,7 @@ public class wakeupaccident {
             boolean stopAccident = false;
             if(!stopAccident){
                 HygieneAPI.ServerPlayerPeeOnSelf(spe);
+                BadHygieneEvents.SendBedwettingEvent(spe);
             }
         }
     }
