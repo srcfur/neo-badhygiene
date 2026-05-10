@@ -8,7 +8,12 @@
     "client.ScreenExposer",
     "FoodDataMixin",
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "FoodDataExposer",
+    "bedwetting.bedwettingplayermixin"
+  ],
+  "client": [
+    "client.InventoryScreenMixin",
   ],
   "injectors": {
     "defaultRequire": 1

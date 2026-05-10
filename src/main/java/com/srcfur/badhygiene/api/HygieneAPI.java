@@ -54,7 +54,7 @@ public class HygieneAPI {
     ///Returns how much of the bladder needs to be filled up before being considered critical
     public static double getBladderCriticalThreshold(@NotNull Player p) { return 85; }
     public static int getBladderToFluidUnits(int bladder) { return bladder * 30; }
-    public static int selfWettingHygieneImpact(@NotNull MinecraftServer server, @NotNull Player currentPlayer) { return 35; }
+    public static int selfWettingHygieneImpact(@NotNull Player currentPlayer) { return 35; }
     /// Registers a function to be ran when a player wets themselves, if returned true then their accident was caught
     public static void registerWettingEvent(Function<Player, Boolean> func){
         event_player_wetting.add(func);
@@ -77,14 +77,17 @@ public class HygieneAPI {
         }
         return getContinence(currentPlayer);
     }
+    public static void ServerPlayerPeeOnSelf(Player currentPlayer){
+        if(!testWettingCaught(currentPlayer)){
+            HygieneAPI.impactCleanliness(currentPlayer, selfWettingHygieneImpact(currentPlayer));
+        }
+        setBladderLevel(currentPlayer, 0);
+    }
 
     /// Performed on every player in the game, every tick!
     public static void ServerPlayerTick(@NotNull MinecraftServer server, @NotNull Player currentPlayer){
         if(getBladderLevel(currentPlayer) > getCalculatedContinence(currentPlayer)){
-            if(!testWettingCaught(currentPlayer)){
-                HygieneAPI.impactCleanliness(currentPlayer, selfWettingHygieneImpact(server, currentPlayer));
-            }
-            setBladderLevel(currentPlayer, 0);
+            ServerPlayerPeeOnSelf(currentPlayer);
         }
         AttributeInstance movementspeed = currentPlayer.getAttribute(Attributes.MOVEMENT_SPEED);
         //Advice to anyone wanting to inject into any of the following below. Look into inject the Add / Remove
