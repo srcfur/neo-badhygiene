@@ -3,17 +3,15 @@
   "package": "com.srcfur.badhygiene.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "client.ContainerScreenExposer",
-    "client.InventoryScreenMixin",
-    "client.ScreenExposer",
     "FoodDataMixin",
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "FoodDataExposer"
+  ],
+  "client": [
+    "client.InventoryScreenMixin",
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "overwrites": {
-    "requireAnnotations": true
   }
 }
