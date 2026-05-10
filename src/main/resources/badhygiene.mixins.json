@@ -6,7 +6,8 @@
     "FoodDataMixin",
     "LivingEntityMixin",
     "PlayerMixin",
-    "FoodDataExposer"
+    "FoodDataExposer",
+    "bedwetting.bedwettingplayermixin"
   ],
   "client": [
     "client.InventoryScreenMixin",

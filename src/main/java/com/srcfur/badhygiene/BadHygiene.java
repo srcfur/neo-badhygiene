@@ -3,6 +3,7 @@ package com.srcfur.badhygiene;
 import com.srcfur.badhygiene.api.HygieneAPI;
 import com.srcfur.badhygiene.attachments.HygienePlayerAttachment;
 import com.srcfur.badhygiene.attributes.HygieneAttributes;
+import com.srcfur.badhygiene.bedwetting.wakeupaccident;
 import com.srcfur.badhygiene.blocks.ModBlockCapabilities;
 import com.srcfur.badhygiene.blocks.ModBlockEntities;
 import com.srcfur.badhygiene.blocks.ModBlocks;
@@ -79,6 +80,7 @@ public class BadHygiene {
         ModBlockEntities.initialize();
 
         NeoForge.EVENT_BUS.addListener(HygieneAPI::ServerTick);
+        NeoForge.EVENT_BUS.addListener(wakeupaccident::onPlayerWakeup);
         modEventBus.register(new ModBlockCapabilities());
     }
 
