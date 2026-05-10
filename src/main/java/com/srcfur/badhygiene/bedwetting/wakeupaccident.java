@@ -28,7 +28,7 @@ public class wakeupaccident {
         if(HygieneAPI.getBladderLevel(spe) > HygieneAPI.getCalculatedContinence(spe) * HygieneAPI.getBladderCriticalThreshold(spe) * 0.01f){
             boolean stopAccident = false;
             if(!stopAccident){
-                HygieneAPI.ServerPlayerPeeOnSelf(spe);
+                HygieneAPI.ServerPlayerPeeOnSelf(spe, false);
                 BadHygieneEvents.SendBedwettingEvent(spe);
             }
         }

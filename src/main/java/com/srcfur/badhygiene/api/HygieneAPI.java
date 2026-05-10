@@ -3,6 +3,7 @@ package com.srcfur.badhygiene.api;
 import com.srcfur.badhygiene.attachments.HygienePlayerAttachment;
 import com.srcfur.badhygiene.attributes.HygieneAttributes;
 import com.srcfur.badhygiene.BadHygiene;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,12 +13,17 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+
+import static com.srcfur.badhygiene.blocks.ModBlocks.URINE_PUDDLE;
 
 public class HygieneAPI {
 
@@ -27,6 +33,7 @@ public class HygieneAPI {
     public static final int MAX_CLEAN_STAT = 100;
     public static final double DIRTY_HEALTH_MULTIPLIER = -0.6;
     private static List<Function<Player, Boolean>> event_player_wetting = new ArrayList<Function<Player, Boolean>>();
+    private static List<Function<Player, Boolean>> event_player_pee_puddle = new ArrayList<>();
 
     public static int getBladderLevel(@NotNull Player p){ return p.getData(HygienePlayerAttachment.BLADDER_LEVEL); }
     public static void setBladderLevel(@NotNull Player p, int i){ p.setData(HygienePlayerAttachment.BLADDER_LEVEL, i); }
@@ -67,6 +74,14 @@ public class HygieneAPI {
         }
         return result;
     }
+    /// Will test through all events seeing if player's accident has been caught. If any return true then their accident has been caught.
+    public static boolean testPissPuddle(@NotNull Player p){
+        boolean result = false;
+        for(Function<Player, Boolean> func : event_player_pee_puddle){
+            result = func.apply(p) || result;
+        }
+        return result;
+    }
 
 
     public static int getCalculatedContinence(@NotNull Player currentPlayer){
@@ -77,9 +92,18 @@ public class HygieneAPI {
         }
         return getContinence(currentPlayer);
     }
-    public static void ServerPlayerPeeOnSelf(Player currentPlayer){
+    public static void ServerPlayerPeeOnSelf(Player currentPlayer, Boolean puddle){
         if(!testWettingCaught(currentPlayer)){
             HygieneAPI.impactCleanliness(currentPlayer, selfWettingHygieneImpact(currentPlayer));
+        }
+        if(puddle){
+            BlockPos goalPosition = currentPlayer.blockPosition();
+            if(currentPlayer.level().getBlockState(goalPosition).getBlock() == Blocks.AIR &&
+                currentPlayer.level().getBlockState(goalPosition.below()).getBlock() != Blocks.AIR){
+                if(!testPissPuddle(currentPlayer)){
+                    currentPlayer.level().setBlockAndUpdate(goalPosition, URINE_PUDDLE.value().defaultBlockState());
+                }
+            }
         }
         setBladderLevel(currentPlayer, 0);
     }
@@ -87,7 +111,7 @@ public class HygieneAPI {
     /// Performed on every player in the game, every tick!
     public static void ServerPlayerTick(@NotNull MinecraftServer server, @NotNull Player currentPlayer){
         if(getBladderLevel(currentPlayer) > getCalculatedContinence(currentPlayer)){
-            ServerPlayerPeeOnSelf(currentPlayer);
+            ServerPlayerPeeOnSelf(currentPlayer, true);
         }
         AttributeInstance movementspeed = currentPlayer.getAttribute(Attributes.MOVEMENT_SPEED);
         //Advice to anyone wanting to inject into any of the following below. Look into inject the Add / Remove
@@ -118,6 +142,9 @@ public class HygieneAPI {
                 //This is mainly a balance thing, so you don't get infinite regeneration for not being peed (or shot :P)
                 HygieneAPI.impactCleanliness(currentPlayer, 1);
             }
+        }
+        if(currentPlayer.getInBlockState().getBlock() == URINE_PUDDLE.value()){
+            HygieneAPI.impactCleanliness(currentPlayer, 1);
         }
     }
     /// Something something, does all the checks this mod does by default every tick :3

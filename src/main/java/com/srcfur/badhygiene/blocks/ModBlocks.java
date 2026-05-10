@@ -3,6 +3,7 @@ package com.srcfur.badhygiene.blocks;
 import com.srcfur.badhygiene.BadHygiene;
 import com.srcfur.badhygiene.blocks.custom.AbstractToiletBlock;
 import com.srcfur.badhygiene.blocks.custom.ToiletBlock;
+import com.srcfur.badhygiene.blocks.custom.UrinePuddle;
 import com.srcfur.badhygiene.blocks.entities.AbstractToiletBlockEntity;
 import com.srcfur.badhygiene.blocks.entities.ToiletBlockEntity;
 import com.srcfur.badhygiene.blocks.entities.WoodenLatrineEntity;
@@ -48,6 +49,10 @@ public class ModBlocks {
     public static final DeferredBlock<Block> URINE = BLOCKS.register("urine", () -> new LiquidBlock(
             ModFluids.URINE_FLOWING.get(),
             BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "urine")))
+    ));
+
+    public static final DeferredBlock<Block> URINE_PUDDLE = BLOCKS.register("urine_puddle", ()->new UrinePuddle(
+            BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "urine_puddle"))).noOcclusion()
     ));
 
     public static DeferredBlock<Block> register(String name, Supplier<? extends Block> supplier){
