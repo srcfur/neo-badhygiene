@@ -4,6 +4,8 @@
   "block.badhygiene.toilet": "Toilet",
   "block.badhygiene.wooden_latrine": "Latrine",
   "block.badhygiene.urine": "Urine",
+  "item.badhygiene.toilet": "Toilet",
+  "item.badhygiene.wooden_latrine": "Latrine",
   "item.badhygiene.urine_bucket": "Urine Bucket",
 
   "fluid_type.badhygiene.urine": "Urine"
