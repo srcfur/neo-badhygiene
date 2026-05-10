@@ -40,11 +40,17 @@ public class ModBlocks {
     public static final RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> TOILET = RegisteredPotty.registerToilet("toilet",
             ToiletBlock.class,
             BlockBehaviour.Properties.of().noOcclusion().setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "toilet"))),
-            ToiletBlockEntity.class);
+            ToiletBlockEntity.class,
+            ModItems.ITEMS,
+            BLOCKS,
+            ModBlockEntities.BLOCK_ENTITY);
     public static final RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> WOODEN_LATRINE = RegisteredPotty.registerToilet("wooden_latrine",
             ToiletBlock.class,
             BlockBehaviour.Properties.of().noOcclusion().setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "wooden_latrine"))),
-            WoodenLatrineEntity.class);
+            WoodenLatrineEntity.class,
+            ModItems.ITEMS,
+            BLOCKS,
+            ModBlockEntities.BLOCK_ENTITY);
 
     public static final DeferredBlock<Block> URINE = BLOCKS.register("urine", () -> new LiquidBlock(
             ModFluids.URINE_FLOWING.get(),
