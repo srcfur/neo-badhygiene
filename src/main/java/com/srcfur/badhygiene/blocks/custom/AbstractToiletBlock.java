@@ -5,6 +5,7 @@ import com.srcfur.badhygiene.api.HygieneAPI;
 import com.srcfur.badhygiene.blocks.RegisteredPotty;
 import com.srcfur.badhygiene.blocks.entities.AbstractToiletBlockEntity;
 import com.srcfur.badhygiene.blocks.entities.ToiletBlockEntity;
+import com.srcfur.badhygiene.events.BadHygieneEvents;
 import com.srcfur.badhygiene.fluids.ModFluids;
 import com.srcfur.badhygiene.fluids.UrineFluid;
 import net.minecraft.core.BlockPos;
@@ -74,6 +75,9 @@ public abstract class AbstractToiletBlock extends BaseEntityBlock {
                     if (entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(1)), IFluidHandler.FluidAction.SIMULATE) > 0) {
                         entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(1)), IFluidHandler.FluidAction.EXECUTE);
                         HygieneAPI.setBladderLevel(player, Math.clamp(HygieneAPI.getBladderLevel(player) - 1, 0, HygieneAPI.getContinence(player)));
+                        if(HygieneAPI.getBladderLevel(player) == 0){
+                            BadHygieneEvents.SendPlayerUsedToiletEvent(player, blockPos);
+                        }
                     } else {
                         //Add thingy to make it visible a toilet is backed up
                     }
