@@ -27,20 +27,21 @@ displayName="${mod_name}" #mandatory
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 
 # A URL for the "homepage" for this mod, displayed in the mod UI
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+displayURL="https://modrinth.com/mod/source-bad-hygiene" #optional
 
 # A file name (in the root of the mod JAR) containing a logo for display
 #logoFile="examplemod.png" #optional
 
 # A text field displayed in the mod UI
-#credits="" #optional
+credits="Bluesky: @srcfur.bsky.social" #optional
 
 # The authors of the mod, displayed in the mod UI (optional)
-#authors=""
+authors="Srcfur"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Example mod description.
+BadHygiene brings all the wonderful (or to some dreadful) needs in life to minecraft!!! Well maybe not all the needs, but now you gotta piss!
+Why? idk, it's cool :3. And you get bonuses for staying clean!!
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
