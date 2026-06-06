@@ -9,7 +9,6 @@
     "FoodDataMixin",
     "LivingEntityMixin",
     "PlayerMixin",
-    "FoodDataExposer",
     "bedwetting.bedwettingplayermixin"
   ],
   "client": [

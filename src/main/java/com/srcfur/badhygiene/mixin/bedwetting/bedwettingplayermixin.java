@@ -18,7 +18,7 @@ public abstract class bedwettingplayermixin {
     public void BadHygiene$Bedwetting$startSleepInBed(BlockPos pos, CallbackInfoReturnable<Either<Player.BedSleepingProblem, Unit>> ci) {
         Player plr = (Player)((Object)this);
         if(HygieneAPI.getBladderLevel(plr) > HygieneAPI.getCalculatedContinence(plr) * HygieneAPI.getBladderCriticalThreshold(plr) * 0.01f){
-            plr.sendOverlayMessage(Component.literal("I've gotta pee :<"));
+            plr.sendSystemMessage(Component.literal("I've gotta pee :<"));
             ci.setReturnValue(Either.left(Player.BedSleepingProblem.OTHER_PROBLEM));
         }
     }
