@@ -9,6 +9,8 @@ import com.srcfur.badhygiene.blocks.entities.ToiletBlockEntity;
 import com.srcfur.badhygiene.blocks.entities.WoodenLatrineEntity;
 import com.srcfur.badhygiene.fluids.ModFluids;
 import com.srcfur.badhygiene.items.ModItems;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -49,7 +51,7 @@ public class ModBlocks {
     ));
 
     public static final DeferredBlock<Block> URINE_PUDDLE = BLOCKS.register("urine_puddle", ()->new UrinePuddle(
-            BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "urine_puddle"))).noOcclusion()
+            BlockBehaviour.Properties.of().noOcclusion()
     ));
 
     public static DeferredBlock<Block> register(String name, Supplier<? extends Block> supplier){
