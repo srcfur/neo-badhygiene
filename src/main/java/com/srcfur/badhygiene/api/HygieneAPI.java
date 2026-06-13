@@ -66,6 +66,8 @@ public class HygieneAPI {
     public static void registerWettingEvent(Function<Player, Boolean> func){
         event_player_wetting.add(func);
     }
+    /// Registers a function to be ran when a player wets themselves, to determine if it should spawn a pee puddle.
+    public static void registerPeePuddleEvent(Function<Player, Boolean> func) { event_player_pee_puddle.add(func); }
     /// Will test through all events seeing if player's accident has been caught. If any return true then their accident has been caught.
     public static boolean testWettingCaught(@NotNull Player p){
         boolean result = false;
