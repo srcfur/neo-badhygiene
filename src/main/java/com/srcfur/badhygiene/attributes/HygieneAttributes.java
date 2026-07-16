@@ -30,7 +30,7 @@ public class HygieneAttributes {
             MODID
     );
     public static void initialize(){
-        CONTINENCE = ATTRIBUTES.register("hygieneattributes", () -> new RangedAttribute("", 100,10,200));
+        CONTINENCE = ATTRIBUTES.register("hygieneattributes", () -> new RangedAttribute("", 1,0.1,2));
         INCONTINENCE_EFFECT = EFFECTS.register("incontinence", () -> new IncontinenceEffect(MobEffectCategory.HARMFUL, Color.black.getRGB())
                         .addAttributeModifier(CONTINENCE, ResourceLocation.fromNamespaceAndPath(MODID, "incontinence"), -0.3f, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
     }
