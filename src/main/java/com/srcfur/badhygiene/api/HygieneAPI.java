@@ -98,13 +98,13 @@ public class HygieneAPI {
     public static void ServerPlayerPeeOnSelf(Player currentPlayer, Boolean puddle){
         if(!testWettingCaught(currentPlayer)){
             HygieneAPI.impactCleanliness(currentPlayer, selfWettingHygieneImpact(currentPlayer));
-        }
-        if(puddle){
-            BlockPos goalPosition = currentPlayer.blockPosition();
-            if(currentPlayer.level().getBlockState(goalPosition).getBlock() == Blocks.AIR &&
-                currentPlayer.level().getBlockState(goalPosition.below()).getBlock() != Blocks.AIR){
-                if(!testPissPuddle(currentPlayer)){
-                    currentPlayer.level().setBlockAndUpdate(goalPosition, URINE_PUDDLE.value().defaultBlockState());
+            if(puddle){
+                BlockPos goalPosition = currentPlayer.blockPosition();
+                if(currentPlayer.level().getBlockState(goalPosition).getBlock() == Blocks.AIR &&
+                        currentPlayer.level().getBlockState(goalPosition.below()).getBlock() != Blocks.AIR){
+                    if(!testPissPuddle(currentPlayer)){
+                        currentPlayer.level().setBlockAndUpdate(goalPosition, URINE_PUDDLE.value().defaultBlockState());
+                    }
                 }
             }
         }
