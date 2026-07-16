@@ -6,5 +6,6 @@
   "block.badhygiene.urine": "Urine",
   "item.badhygiene.urine_bucket": "Urine Bucket",
 
-  "fluid_type.badhygiene.urine": "Urine"
+  "fluid_type.badhygiene.urine": "Urine",
+  "effect.badhygiene.incontinence": "Incontinence"
 }
