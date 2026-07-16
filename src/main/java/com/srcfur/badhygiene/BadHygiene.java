@@ -9,7 +9,11 @@ import com.srcfur.badhygiene.blocks.ModBlockEntities;
 import com.srcfur.badhygiene.blocks.ModBlocks;
 import com.srcfur.badhygiene.fluids.ModFluids;
 import com.srcfur.badhygiene.items.ModItems;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -53,6 +57,7 @@ public class BadHygiene {
     public BadHygiene(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(BadHygiene::createDefaultAttributes);
 
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
@@ -68,6 +73,7 @@ public class BadHygiene {
         ModBlockEntities.BLOCK_ENTITY.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModFluids.FLUID_TYPES.register(modEventBus);
+        HygieneAttributes.EFFECTS.register(modEventBus);
 
         // Register the item to a creative tab
 
@@ -102,5 +108,12 @@ public class BadHygiene {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+
+    public static void createDefaultAttributes(EntityAttributeModificationEvent event) {
+        event.add(
+                EntityType.PLAYER,
+                HygieneAttributes.CONTINENCE
+        );
     }
 }
