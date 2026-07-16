@@ -17,8 +17,8 @@ public class PlayerUsedToiletEvent extends PlayerEvent {
         position = pos;
         entity = l.getBlockEntity(pos);
     }
-    private Player player;
-    private BlockPos position;
-    private BlockEntity entity;
-    private Level level;
+    public Player player;
+    public BlockPos position;
+    public BlockEntity entity;
+    public Level level;
 }

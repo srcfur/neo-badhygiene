@@ -76,9 +76,10 @@ public abstract class AbstractToiletBlock extends BaseEntityBlock {
             AbstractToiletBlockEntity entity = (AbstractToiletBlockEntity) level.getBlockEntity(blockPos);
             if(entity != null){
                 if(!level.isClientSide()) {
-                    if (entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(1)), IFluidHandler.FluidAction.SIMULATE) > 0) {
-                        entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(1)), IFluidHandler.FluidAction.EXECUTE);
-                        HygieneAPI.setBladderLevel(player, Math.clamp(HygieneAPI.getBladderLevel(player) - 1, 0, HygieneAPI.getContinence(player)));
+                    int filledin = entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(HygieneAPI.getBladderLevel(player))), IFluidHandler.FluidAction.SIMULATE);
+                    if (filledin > 0) {
+                        entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(HygieneAPI.getBladderLevel(player))), IFluidHandler.FluidAction.EXECUTE);
+                        HygieneAPI.setBladderLevel(player, Math.clamp(HygieneAPI.getBladderLevel(player) - HygieneAPI.getFluidToBladderUnits(filledin), 0, HygieneAPI.getContinence(player)));
                         if(HygieneAPI.getBladderLevel(player) == 0){
                             BadHygieneEvents.SendPlayerUsedToiletEvent(player, blockPos);
                         }
