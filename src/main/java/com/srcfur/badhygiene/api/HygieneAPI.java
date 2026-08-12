@@ -85,6 +85,9 @@ public class HygieneAPI {
         }
         return result;
     }
+    public static boolean getPlayerSlowedByBladder(Player currentPlayer){
+        return getBladderFullness(currentPlayer) > getBladderCriticalThreshold(currentPlayer);
+    }
 
 
     public static int getCalculatedContinence(@NotNull Player currentPlayer){
@@ -120,7 +123,7 @@ public class HygieneAPI {
         //Advice to anyone wanting to inject into any of the following below. Look into inject the Add / Remove
         //functions of the AttributeInstance. Alternatively inject here and do our checks but like... earlier :3
         if(movementspeed != null){
-            if(getBladderFullness(currentPlayer) > getBladderCriticalThreshold(currentPlayer)){
+            if(getPlayerSlowedByBladder(currentPlayer)){
                 movementspeed.addOrReplacePermanentModifier(
                         new AttributeModifier(BLADDER_FULL_SLOW_DOWN_ID, getPlayerFullBladderSlowdown(currentPlayer), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
                 );

@@ -46,11 +46,7 @@ public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractTo
         returnable.BLOCK = ModBlocks.BLOCKS.register(name, ()-> {
             try {
                 return blockcon.newInstance(properties, returnable);
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         });                                                                      //Register Block

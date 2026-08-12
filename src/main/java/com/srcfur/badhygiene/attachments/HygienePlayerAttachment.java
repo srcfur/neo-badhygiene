@@ -10,7 +10,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.function.Supplier;
 
-public class HygienePlayerAttachment {
+public class    HygienePlayerAttachment {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, BadHygiene.MODID);
     public static final Supplier<AttachmentType<Integer>> BLADDER_LEVEL = ATTACHMENTS.register("bladderlevel",
             () -> AttachmentType.<Integer>builder(()->0).serialize(Codec.INT).sync(new HygieneIntegerStreamCodec()).build());
