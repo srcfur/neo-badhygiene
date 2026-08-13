@@ -9,7 +9,8 @@
     "FoodDataMixin",
     "LivingEntityMixin",
     "PlayerMixin",
-    "bedwetting.bedwettingplayermixin"
+    "bedwetting.bedwettingplayermixin",
+    "SoiledArmorMixin"
   ],
   "client": [
     "client.InventoryScreenMixin",

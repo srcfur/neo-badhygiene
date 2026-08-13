@@ -7,5 +7,6 @@
   "item.badhygiene.urine_bucket": "Urine Bucket",
 
   "fluid_type.badhygiene.urine": "Urine",
-  "effect.badhygiene.incontinence": "Incontinence"
+  "effect.badhygiene.incontinence": "Incontinence",
+  "msg.badhygiene.soiled_death": " has withered away."
 }
