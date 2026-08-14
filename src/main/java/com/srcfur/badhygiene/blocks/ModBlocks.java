@@ -4,6 +4,7 @@ import com.srcfur.badhygiene.BadHygiene;
 import com.srcfur.badhygiene.blocks.custom.AbstractToiletBlock;
 import com.srcfur.badhygiene.blocks.custom.ToiletBlock;
 import com.srcfur.badhygiene.blocks.custom.UrinePuddle;
+import com.srcfur.badhygiene.blocks.custom.WashingMachineBlock;
 import com.srcfur.badhygiene.blocks.entities.AbstractToiletBlockEntity;
 import com.srcfur.badhygiene.blocks.entities.ToiletBlockEntity;
 import com.srcfur.badhygiene.blocks.entities.WoodenLatrineEntity;
@@ -53,6 +54,9 @@ public class ModBlocks {
     public static final DeferredBlock<Block> URINE_PUDDLE = BLOCKS.register("urine_puddle", ()->new UrinePuddle(
             BlockBehaviour.Properties.of().noOcclusion()
     ));
+
+    public static final DeferredBlock<Block> WASHING_MACHINE = BLOCKS.register("washing_machine",
+            ()->new WashingMachineBlock(BlockBehaviour.Properties.of()));
 
     public static DeferredBlock<Block> register(String name, Supplier<? extends Block> supplier){
         DeferredBlock<Block> block = BLOCKS.register(name, supplier);

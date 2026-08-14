@@ -10,6 +10,7 @@ import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 
@@ -33,6 +34,11 @@ public class ModBlockCapabilities {
                     (myblockentity, side) -> myblockentity
             );
         }
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.WASHING_MACHINE_ENTITY.get(),
+                (ent, side) -> ent
+        );
         BadHygiene.LOGGER.info("Registered Fluid Capabilities for BadHygiene");
     }
     public static void initialize(){

@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#minecraft:head_armor",
+    "#minecraft:chest_armor",
+    "#minecraft:leg_armor",
+    "#minecraft:foot_armor"
+  ],
+  "replace": false,
+  "remove": [
+  ]
+}

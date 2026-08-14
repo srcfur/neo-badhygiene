@@ -21,4 +21,10 @@ public class HygieneDataTypes {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> HYGIENE_SOILED_CLOTHING = DATA_COMPONENTS.registerComponentType(
             "soiled",
             booleanBuilder -> booleanBuilder.networkSynchronized(ByteBufCodecs.BOOL).persistent(Codec.BOOL));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> HYGIENE_DIET_EFFECT = DATA_COMPONENTS.registerComponentType(
+      "dietary_score",
+        integerBuilder -> integerBuilder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> HYGIENE_BOWEL_FILL = DATA_COMPONENTS.registerComponentType(
+            "bowel_fullness",
+            integerBuilder -> integerBuilder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
 }

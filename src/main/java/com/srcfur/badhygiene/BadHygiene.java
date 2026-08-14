@@ -71,7 +71,6 @@ public class BadHygiene {
         ModFluids.HYGIENE_FLUIDS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITY.register(modEventBus);
-        ModItems.ITEMS.register(modEventBus);
         ModFluids.FLUID_TYPES.register(modEventBus);
         HygieneAttributes.EFFECTS.register(modEventBus);
 
