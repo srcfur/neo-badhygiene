@@ -15,13 +15,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Player.class)
 public abstract class PlayerMixin {
     @Shadow
-    public abstract boolean isInvulnerableTo(ServerLevel level, DamageSource source);
+    public abstract boolean isInvulnerableTo(DamageSource damageSource);
+
+    @Shadow @Final
+    private Inventory inventory;
 
     @Inject(at=@At("TAIL"), method="actuallyHurt")
-    public void BadHygiene$actuallyHurtServer(ServerLevel level, DamageSource source, float dmg, CallbackInfo ci){
-        if(!this.isInvulnerableTo(level, source)){
+    public void BadHygiene$actuallyHurtServer(DamageSource damageSource, float f, CallbackInfo ci){
+        if(!this.isInvulnerableTo(damageSource)){
             //Another really roundabout way of getting the player >:(
-            HygieneAPI.impactCleanliness((Player)((Object)this), Math.round(dmg));
+            HygieneAPI.impactCleanliness(this.inventory.player, Math.round(f));
         }
     }
 }

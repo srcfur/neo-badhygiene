@@ -8,9 +8,8 @@ import com.srcfur.badhygiene.blocks.entities.ToiletBlockEntity;
 import com.srcfur.badhygiene.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -18,7 +17,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.registries.*;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -33,13 +35,7 @@ public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractTo
     public DeferredHolder<BlockEntityType<?>, BlockEntityType<? extends AbstractToiletBlockEntity>> ENTITY;
     public Constructor<? extends AbstractToiletBlockEntity> ENTITY_CONSTRUCTOR;
 
-    public static RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> registerToilet(String name,
-                                                                                                                     Class<? extends AbstractToiletBlock> block,
-                                                                                                                     BlockBehaviour.Properties properties,
-                                                                                                                     Class<? extends AbstractToiletBlockEntity> entity,
-                                                                                                                     DeferredRegister<Item> ITEM_REGISTER,
-                                                                                                                     DeferredRegister.Blocks BLOCK_REGISTER,
-                                                                                                                     DeferredRegister<BlockEntityType<?>> ENT_REGISTER){
+    public static RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> registerToilet(String name, Class<? extends AbstractToiletBlock> block, BlockBehaviour.Properties properties, Class<? extends AbstractToiletBlockEntity> entity){
         RegisteredPotty<AbstractToiletBlock, AbstractToiletBlockEntity> returnable = new RegisteredPotty<>();
         Constructor<? extends AbstractToiletBlock> blockcon;
         try{
@@ -47,7 +43,7 @@ public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractTo
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        returnable.BLOCK = BLOCK_REGISTER.register(name, ()-> {
+        returnable.BLOCK = ModBlocks.BLOCKS.register(name, ()-> {
             try {
                 return blockcon.newInstance(properties, returnable);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
@@ -56,8 +52,7 @@ public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractTo
         });                                                                      //Register Block
 
 
-        returnable.ITEM = ITEM_REGISTER.register(name, () -> new BlockItem(returnable.BLOCK.get(), new Item.Properties().stacksTo(64)
-                .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(BadHygiene.MODID, name)))));     //Register item!
+        returnable.ITEM = ModItems.ITEMS.register(name, () -> new BlockItem(returnable.BLOCK.get(), new Item.Properties().stacksTo(64)));     //Register item!
 
 
         Constructor<? extends AbstractToiletBlockEntity> con;
@@ -79,12 +74,13 @@ public class RegisteredPotty<T extends AbstractToiletBlock, E extends AbstractTo
             }
         };
         returnable.ENTITY_CONSTRUCTOR = con;
-        returnable.ENTITY = ENT_REGISTER.register(name,
-                ()-> new BlockEntityType<>(
-                        besupp,
-                        false,
-                        returnable.BLOCK.value()
-                ));
+        returnable.ENTITY = ModBlockEntities.BLOCK_ENTITY.register(name,
+                ()-> {
+                    return BlockEntityType.Builder.of(
+                            besupp,
+                            returnable.BLOCK.get()
+                    ).build(null);
+                });
         allRegisteredPotties.add(returnable);
         return returnable;
     }
