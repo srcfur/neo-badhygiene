@@ -6,11 +6,14 @@
     "FoodDataMixin",
     "LivingEntityMixin",
     "PlayerMixin",
-    "FoodDataExposer",
-    "bedwetting.bedwettingplayermixin"
+    "bedwetting.bedwettingplayermixin",
+    "SoiledArmorMixin"
   ],
   "client": [
     "client.InventoryScreenMixin",
+    "client.GuiMixin",
+    "client.ContainerScreenExposer",
+    "client.ScreenExposer"
   ],
   "injectors": {
     "defaultRequire": 1

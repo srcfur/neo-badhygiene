@@ -3,18 +3,25 @@ package com.srcfur.badhygiene.api;
 import com.srcfur.badhygiene.attachments.HygienePlayerAttachment;
 import com.srcfur.badhygiene.attributes.HygieneAttributes;
 import com.srcfur.badhygiene.BadHygiene;
+import com.srcfur.badhygiene.data.HygieneDataTypes;
+import com.srcfur.badhygiene.events.PlayerFullBladderEvent;
+import com.srcfur.badhygiene.events.PlayerMessingEvent;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +41,7 @@ public class HygieneAPI {
     public static final double DIRTY_HEALTH_MULTIPLIER = -0.6;
     private static List<Function<Player, Boolean>> event_player_wetting = new ArrayList<Function<Player, Boolean>>();
     private static List<Function<Player, Boolean>> event_player_pee_puddle = new ArrayList<>();
+    private static List<Function<Player, Boolean>> event_player_messing = new ArrayList<>();
 
     public static int getBladderLevel(@NotNull Player p){ return p.getData(HygienePlayerAttachment.BLADDER_LEVEL); }
     public static void setBladderLevel(@NotNull Player p, int i){ p.setData(HygienePlayerAttachment.BLADDER_LEVEL, i); }
@@ -53,6 +61,8 @@ public class HygieneAPI {
             }
         }
     }
+    public static int getBowelLevel(@NotNull Player p) { return p.getData(HygienePlayerAttachment.BOWEL_LEVEL); }
+    public static void setBowelLevel(@NotNull Player p, int i) { p.setData(HygienePlayerAttachment.BOWEL_LEVEL, i); }
 
     ///Returns as a percentage number (ie: 85.00%)
     public static float getBladderFullness(@NotNull Player p) { return ((float)getBladderLevel(p) / (float)getCalculatedContinence(p)) * 100; }
@@ -61,11 +71,14 @@ public class HygieneAPI {
     ///Returns how much of the bladder needs to be filled up before being considered critical
     public static double getBladderCriticalThreshold(@NotNull Player p) { return 85; }
     public static int getBladderToFluidUnits(int bladder) { return bladder * 30; }
+    public static int getFluidToBladderUnits(int fluid) { return fluid / 30; }
     public static int selfWettingHygieneImpact(@NotNull Player currentPlayer) { return 35; }
     /// Registers a function to be ran when a player wets themselves, if returned true then their accident was caught
     public static void registerWettingEvent(Function<Player, Boolean> func){
         event_player_wetting.add(func);
     }
+    /// Registers a function to be ran when a player wets themselves, to determine if it should spawn a pee puddle.
+    public static void registerPeePuddleEvent(Function<Player, Boolean> func) { event_player_pee_puddle.add(func); }
     /// Will test through all events seeing if player's accident has been caught. If any return true then their accident has been caught.
     public static boolean testWettingCaught(@NotNull Player p){
         boolean result = false;
@@ -82,6 +95,9 @@ public class HygieneAPI {
         }
         return result;
     }
+    public static boolean getPlayerSlowedByBladder(Player currentPlayer){
+        return getBladderFullness(currentPlayer) > getBladderCriticalThreshold(currentPlayer) && !NeoForge.EVENT_BUS.post(new PlayerFullBladderEvent(currentPlayer)).isCanceled();
+    }
 
 
     public static int getCalculatedContinence(@NotNull Player currentPlayer){
@@ -95,13 +111,13 @@ public class HygieneAPI {
     public static void ServerPlayerPeeOnSelf(Player currentPlayer, Boolean puddle){
         if(!testWettingCaught(currentPlayer)){
             HygieneAPI.impactCleanliness(currentPlayer, selfWettingHygieneImpact(currentPlayer));
-        }
-        if(puddle){
-            BlockPos goalPosition = currentPlayer.blockPosition();
-            if(currentPlayer.level().getBlockState(goalPosition).getBlock() == Blocks.AIR &&
-                currentPlayer.level().getBlockState(goalPosition.below()).getBlock() != Blocks.AIR){
-                if(!testPissPuddle(currentPlayer)){
-                    currentPlayer.level().setBlockAndUpdate(goalPosition, URINE_PUDDLE.value().defaultBlockState());
+            if(puddle){
+                BlockPos goalPosition = currentPlayer.blockPosition();
+                if(currentPlayer.level().getBlockState(goalPosition).getBlock() == Blocks.AIR &&
+                        currentPlayer.level().getBlockState(goalPosition.below()).getBlock() != Blocks.AIR){
+                    if(!testPissPuddle(currentPlayer)){
+                        currentPlayer.level().setBlockAndUpdate(goalPosition, URINE_PUDDLE.value().defaultBlockState());
+                    }
                 }
             }
         }
@@ -117,7 +133,7 @@ public class HygieneAPI {
         //Advice to anyone wanting to inject into any of the following below. Look into inject the Add / Remove
         //functions of the AttributeInstance. Alternatively inject here and do our checks but like... earlier :3
         if(movementspeed != null){
-            if(getBladderFullness(currentPlayer) > getBladderCriticalThreshold(currentPlayer)){
+            if(getPlayerSlowedByBladder(currentPlayer)){
                 movementspeed.addOrReplacePermanentModifier(
                         new AttributeModifier(BLADDER_FULL_SLOW_DOWN_ID, getPlayerFullBladderSlowdown(currentPlayer), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
                 );
@@ -145,6 +161,28 @@ public class HygieneAPI {
         }
         if(currentPlayer.getInBlockState().getBlock() == URINE_PUDDLE.value()){
             HygieneAPI.impactCleanliness(currentPlayer, 1);
+        }
+
+        //Messing
+        if(getBowelLevel(currentPlayer) >= 40){
+            PlayerMessingEvent messingEvent = NeoForge.EVENT_BUS.post(new PlayerMessingEvent(currentPlayer));
+            if(!messingEvent.isCanceled()){
+                List<ItemStack> toSoil = new ArrayList<ItemStack>();
+                for (ItemStack stack : currentPlayer.getArmorSlots()) {
+                    if(stack.getCount() > 0 && !stack.getOrDefault(HygieneDataTypes.HYGIENE_SOILED_CLOTHING, false)){
+                        toSoil.add(stack);
+                    }
+                }
+                if(currentPlayer.level().getDifficulty() != Difficulty.HARD){
+                    while(toSoil.size() > 1){
+                        toSoil.remove(currentPlayer.level().getRandom().nextInt(toSoil.size()));
+                    }
+                }
+                toSoil.forEach(soilable -> {
+                    soilable.set(HygieneDataTypes.HYGIENE_SOILED_CLOTHING, true);
+                });
+            }
+            setBowelLevel(currentPlayer, 0);
         }
     }
     /// Something something, does all the checks this mod does by default every tick :3

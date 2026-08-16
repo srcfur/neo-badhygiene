@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "badhygiene:block/washing_machine",
+    "side": "minecraft:block/iron_block",
+    "top": "minecraft:block/iron_block"
+  }
+}

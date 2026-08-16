@@ -4,9 +4,11 @@
   "block.badhygiene.toilet": "Toilet",
   "block.badhygiene.wooden_latrine": "Latrine",
   "block.badhygiene.urine": "Urine",
-  "item.badhygiene.toilet": "Toilet",
-  "item.badhygiene.wooden_latrine": "Latrine",
+  "block.badhygiene.washing_machine": "Washing Machine",
+  "item.badhygiene.detergent": "Detergent",
   "item.badhygiene.urine_bucket": "Urine Bucket",
 
-  "fluid_type.badhygiene.urine": "Urine"
+  "fluid_type.badhygiene.urine": "Urine",
+  "effect.badhygiene.incontinence": "Incontinence",
+  "msg.badhygiene.soiled_death": " has withered away."
 }

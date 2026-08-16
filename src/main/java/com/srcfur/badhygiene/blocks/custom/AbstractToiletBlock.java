@@ -10,8 +10,12 @@ import com.srcfur.badhygiene.fluids.ModFluids;
 import com.srcfur.badhygiene.fluids.UrineFluid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -72,19 +76,30 @@ public abstract class AbstractToiletBlock extends BaseEntityBlock {
             AbstractToiletBlockEntity entity = (AbstractToiletBlockEntity) level.getBlockEntity(blockPos);
             if(entity != null){
                 if(!level.isClientSide()) {
-                    if (entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(1)), IFluidHandler.FluidAction.SIMULATE) > 0) {
-                        entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(1)), IFluidHandler.FluidAction.EXECUTE);
-                        HygieneAPI.setBladderLevel(player, Math.clamp(HygieneAPI.getBladderLevel(player) - 1, 0, HygieneAPI.getContinence(player)));
+                    int filledin = entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(HygieneAPI.getBladderLevel(player))), IFluidHandler.FluidAction.SIMULATE);
+                    if (filledin > 0) {
+                        entity.fill(new FluidStack(ModFluids.URINE_STILL.get(), HygieneAPI.getBladderToFluidUnits(HygieneAPI.getBladderLevel(player))), IFluidHandler.FluidAction.EXECUTE);
+                        HygieneAPI.setBladderLevel(player, Math.clamp(HygieneAPI.getBladderLevel(player) - HygieneAPI.getFluidToBladderUnits(filledin), 0, HygieneAPI.getContinence(player)));
                         if(HygieneAPI.getBladderLevel(player) == 0){
                             BadHygieneEvents.SendPlayerUsedToiletEvent(player, blockPos);
+                            if(HygieneAPI.getBowelLevel(player) > 30){
+                                HygieneAPI.setBowelLevel(player, 0);
+                            }
                         }
                     } else {
                         //Add thingy to make it visible a toilet is backed up
+                        player.sendSystemMessage(Component.literal("Toilet is backed up, consider plumbing it!"));
+                        return InteractionResult.FAIL;
                     }
                 }
                 return InteractionResult.SUCCESS;
             }
         }
         return super.useWithoutItem(blockState, level, blockPos, player, blockHitResult);
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        return useWithoutItem(state, level, pos, player, hitResult) == InteractionResult.SUCCESS ? ItemInteractionResult.SUCCESS : ItemInteractionResult.FAIL;
     }
 }
