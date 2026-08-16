@@ -15,6 +15,10 @@ public class WashingMachineScreen extends AbstractContainerScreen<WashingMachine
         super(menu, playerInventory, title);
         imageWidth = 174;
         imageHeight = 164;
+        titleLabelX = 44;
+        titleLabelY = 6;
+        inventoryLabelX = 44;
+        inventoryLabelY = 70;
     }
 
     @Override

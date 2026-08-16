@@ -72,12 +72,12 @@ public class WashingMachineBlock extends BaseEntityBlock implements MenuProvider
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("diapers");
+        return Component.translatable("block.badhygiene.washing_machine");
     }
     @Override
     public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
         return new SimpleMenuProvider(
-                (containerid, inv, plr) -> new WashingMachineMenu(containerid, inv, (IItemHandler) level.getBlockEntity(pos)),
+                (containerid, inv, plr) -> new WashingMachineMenu(containerid, inv, (WashingMachineEntity) level.getBlockEntity(pos)),
                 getDisplayName());
     }
 

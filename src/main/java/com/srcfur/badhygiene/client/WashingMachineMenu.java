@@ -31,6 +31,11 @@ public class WashingMachineMenu extends AbstractContainerMenu {
     }
 
     @Override
+    protected boolean moveItemStackTo(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
+        return super.moveItemStackTo(stack, startIndex, endIndex, reverseDirection);
+    }
+
+    @Override
     public ItemStack quickMoveStack(Player player, int i) {
         return ItemStack.EMPTY;
     }

@@ -40,6 +40,9 @@ public class ModItems {
     public static final DeferredHolder<Item, BlockItem> WASHING_MACHINE = ITEMS.register("washing_machine",
             ()->new BlockItem(ModBlocks.WASHING_MACHINE.get(), new Item.Properties()));
 
+    public static final DeferredHolder<Item, Item> DETERGENT = ITEMS.register("detergent",
+            ()->new Item(new Item.Properties()));
+
     @SubscribeEvent // on the mod event bus
     public void modifyComponents(ModifyDefaultComponentsEvent event) {
         // Sets the component on melon seeds
