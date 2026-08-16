@@ -16,7 +16,7 @@ public class FoodDataMixin {
     private float exhaustionLevel;
 
     @Inject(at = @At("HEAD"), method = "tick")
-    private void badhygeine$tick(Player serverPlayer, CallbackInfo ci){
+    private void badhygeine$tick(ServerPlayer serverPlayer, CallbackInfo ci){
         if(this.exhaustionLevel > 4.0f){
             HygieneAPI.setBladderLevel(serverPlayer, HygieneAPI.getBladderLevel(serverPlayer) + 1);
         }

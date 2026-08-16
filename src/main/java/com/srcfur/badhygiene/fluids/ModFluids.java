@@ -4,7 +4,7 @@ import com.srcfur.badhygiene.BadHygiene;
 import com.srcfur.badhygiene.fluids.fluidtype.UrineFluidType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -14,8 +14,8 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.joml.Vector3f;
 
 public class ModFluids {
-    public static final ResourceLocation WATER_STILL_RL = ResourceLocation.withDefaultNamespace("block/water_still");
-    public static final ResourceLocation WATER_FLOWING_RL = ResourceLocation.withDefaultNamespace("block/water_flow");
+    public static final Identifier WATER_STILL_RL = Identifier.withDefaultNamespace("block/water_still");
+    public static final Identifier WATER_FLOWING_RL = Identifier.withDefaultNamespace("block/water_flow");
     public static final DeferredRegister<Fluid> HYGIENE_FLUIDS = DeferredRegister.create(BuiltInRegistries.FLUID, BadHygiene.MODID);
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, BadHygiene.MODID);
     //public static final FluidType URINE_TYPE = new FluidType(FluidType.Properties.create().canDrown(true).canPushEntity(false));

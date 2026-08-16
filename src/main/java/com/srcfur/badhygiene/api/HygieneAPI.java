@@ -34,9 +34,9 @@ import static com.srcfur.badhygiene.blocks.ModBlocks.URINE_PUDDLE;
 
 public class HygieneAPI {
 
-    public static final ResourceLocation BLADDER_FULL_SLOW_DOWN_ID = ResourceLocation.fromNamespaceAndPath(BadHygiene.MODID, "bladderfull");
-    public static final ResourceLocation DIRTY_VULNERABILITY_ID = ResourceLocation.fromNamespaceAndPath(BadHygiene.MODID, "vulnerable");
-    public static final ResourceLocation WEAK_BLADDER_HEALTH_ID = ResourceLocation.fromNamespaceAndPath(BadHygiene.MODID, "weakbladder");
+    public static final Identifier BLADDER_FULL_SLOW_DOWN_ID = Identifier.fromNamespaceAndPath(BadHygiene.MODID, "bladderfull");
+    public static final Identifier DIRTY_VULNERABILITY_ID = Identifier.fromNamespaceAndPath(BadHygiene.MODID, "vulnerable");
+    public static final Identifier WEAK_BLADDER_HEALTH_ID = Identifier.fromNamespaceAndPath(BadHygiene.MODID, "weakbladder");
     public static final int MAX_CLEAN_STAT = 100;
     public static final double DIRTY_HEALTH_MULTIPLIER = -0.6;
     private static List<Function<Player, Boolean>> event_player_wetting = new ArrayList<Function<Player, Boolean>>();
