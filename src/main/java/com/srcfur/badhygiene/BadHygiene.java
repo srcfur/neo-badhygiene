@@ -50,6 +50,7 @@ public class BadHygiene {
             .displayItems((parameters, output) -> {
                 output.accept(ModBlocks.TOILET.ITEM.get());
                 output.accept(ModBlocks.WOODEN_LATRINE.ITEM.get());
+                output.accept(ModItems.DETERGENT.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.

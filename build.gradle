@@ -155,6 +155,7 @@ dependencies {
     localRuntime "maven.modrinth:ge1sOdFH:1wGQsa0w"
     localRuntime "maven.modrinth:s3dmwKy5:8wmCpbQ2"
     localRuntime "maven.modrinth:component-viewer:1.3.3+1.21.1-neoforge"
+    localRuntime "maven.modrinth:jei:19.27.0.340-neoforge"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
