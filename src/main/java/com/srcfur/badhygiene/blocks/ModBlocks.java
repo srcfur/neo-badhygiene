@@ -39,26 +39,16 @@ public class ModBlocks {
 
     public static final RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> TOILET = RegisteredPotty.registerToilet("toilet",
             ToiletBlock.class,
-            BlockBehaviour.Properties.of().noOcclusion().setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "toilet"))),
-            ToiletBlockEntity.class,
-            ModItems.ITEMS,
-            BLOCKS,
-            ModBlockEntities.BLOCK_ENTITY);
+            BlockBehaviour.Properties.of().noOcclusion(),
+            ToiletBlockEntity.class);
     public static final RegisteredPotty<? extends AbstractToiletBlock, ? extends AbstractToiletBlockEntity> WOODEN_LATRINE = RegisteredPotty.registerToilet("wooden_latrine",
             ToiletBlock.class,
-            BlockBehaviour.Properties.of().noOcclusion().setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "wooden_latrine"))),
-            WoodenLatrineEntity.class,
-            ModItems.ITEMS,
-            BLOCKS,
-            ModBlockEntities.BLOCK_ENTITY);
+            BlockBehaviour.Properties.of().noOcclusion(),
+            WoodenLatrineEntity.class);
 
     public static final DeferredBlock<Block> URINE = BLOCKS.register("urine", () -> new LiquidBlock(
             ModFluids.URINE_FLOWING.get(),
-            BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "urine")))
-    ));
-
-    public static final DeferredBlock<Block> URINE_PUDDLE = BLOCKS.register("urine_puddle", ()->new UrinePuddle(
-            BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(BadHygiene.MODID, "urine_puddle"))).noOcclusion()
+            BlockBehaviour.Properties.ofFullCopy(Blocks.WATER)
     ));
 
     public static final DeferredBlock<Block> URINE_PUDDLE = BLOCKS.register("urine_puddle", ()->new UrinePuddle(

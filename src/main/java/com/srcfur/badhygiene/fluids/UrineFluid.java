@@ -33,7 +33,7 @@ public class UrineFluid extends FlowingFluid {
     }
 
     @Override
-    protected boolean canConvertToSource(ServerLevel serverLevel) {
+    protected boolean canConvertToSource(@NotNull Level level) {
         return false;
     }
 
