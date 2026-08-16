@@ -4,6 +4,7 @@ import com.srcfur.badhygiene.attachments.HygienePlayerAttachment;
 import com.srcfur.badhygiene.attributes.HygieneAttributes;
 import com.srcfur.badhygiene.BadHygiene;
 import com.srcfur.badhygiene.data.HygieneDataTypes;
+import com.srcfur.badhygiene.events.PlayerFullBladderEvent;
 import com.srcfur.badhygiene.events.PlayerMessingEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -95,7 +96,7 @@ public class HygieneAPI {
         return result;
     }
     public static boolean getPlayerSlowedByBladder(Player currentPlayer){
-        return getBladderFullness(currentPlayer) > getBladderCriticalThreshold(currentPlayer);
+        return getBladderFullness(currentPlayer) > getBladderCriticalThreshold(currentPlayer) && !NeoForge.EVENT_BUS.post(new PlayerFullBladderEvent(currentPlayer)).isCanceled();
     }
 
 
